@@ -24,4 +24,4 @@ jobs:
         env:
           TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}  # Tushare API Key
           SERVERCHAN_SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}  # Server酱微信推送
-        run: python rsi_filter.py
+        run: python 优化-整合.py
