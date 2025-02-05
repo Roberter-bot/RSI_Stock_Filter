@@ -1,0 +1,27 @@
+name: RSI Stock Filter Auto Run
+
+on:
+  schedule:
+    - cron: '0 1 * * *'  # 每天 UTC 01:00（北京时间 09:00）运行
+  workflow_dispatch:  # 允许手动触发任务
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest  # 运行环境：Linux
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+
+      - name: 设置 Python 环境
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: 安装依赖
+        run: pip install tushare pandas openpyxl requests twilio
+
+      - name: 运行 RSI 计算脚本
+        env:
+          TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}  # Tushare API Key
+          SERVERCHAN_SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}  # Server酱微信推送
+        run: python rsi_filter.py
